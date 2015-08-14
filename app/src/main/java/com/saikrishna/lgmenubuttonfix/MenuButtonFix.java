@@ -34,7 +34,6 @@ public class MenuButtonFix implements IXposedHookLoadPackage {
             });
         } catch (NoSuchMethodError e) {
             XposedBridge.log("Unable to add onKeyDown hook for " + lpparam.packageName);
-            XposedBridge.log(e);
         }
         try {
             findAndHookMethod("android.app.Activity", lpparam.classLoader, "onKeyUp", int.class, KeyEvent.class, new XC_MethodReplacement() {
@@ -51,7 +50,6 @@ public class MenuButtonFix implements IXposedHookLoadPackage {
             });
         } catch (NoSuchMethodError e) {
             XposedBridge.log("Unable to add onKeyUp hook for " + lpparam.packageName);
-            XposedBridge.log(e);
         }
     }
 }
