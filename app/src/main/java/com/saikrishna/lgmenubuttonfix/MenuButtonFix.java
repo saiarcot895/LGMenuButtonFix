@@ -15,10 +15,17 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
  */
 public class MenuButtonFix implements IXposedHookLoadPackage {
     public void handleLoadPackage(final LoadPackageParam lpparam) {
+        // Check to see if this package uses the older v7 support library
         try {
-            // Check to see if this package uses the class
+            lpparam.classLoader.loadClass("android.support.v7.app.AppCompatActivity");
+            XposedBridge.log("Using newer version of support library: " + lpparam.packageName);
+            return;
+        } catch (ClassNotFoundException e) {
+        }
+        try {
             lpparam.classLoader.loadClass("android.support.v7.app.ActionBarActivity");
         } catch (ClassNotFoundException e) {
+            XposedBridge.log("Not using support library: " + lpparam.packageName);
             return;
         }
         try {
